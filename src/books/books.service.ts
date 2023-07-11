@@ -9,9 +9,9 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Book } from '../entities';
-import { AbstractRepository } from '../abstracts';
+import { BasicRepository } from '../abstracts';
 
-export abstract class BooksRepostory extends AbstractRepository<
+export abstract class BooksRepostory extends BasicRepository<
   Book,
   CreateBookDto,
   UpdateBookDto
@@ -23,7 +23,7 @@ export class StandardBooksRepository implements BooksRepostory {
     @InjectRepository(Book)
     private booksRepository: Repository<Book>,
   ) {}
-  
+
   async removeAll(): Promise<void> {
     await this.booksRepository.delete({});
   }
@@ -43,7 +43,9 @@ export class StandardBooksRepository implements BooksRepostory {
 
   async findAll(): Promise<Book[]> {
     try {
-      return await this.booksRepository.find();
+      return await this.booksRepository.find({
+        relations: { publisher: true },
+      });
     } catch (error) {
       console.error(error);
       throw error;
@@ -51,7 +53,10 @@ export class StandardBooksRepository implements BooksRepostory {
   }
 
   async findOne(ISBN: string): Promise<Book | null> {
-    return await this.booksRepository.findOne({ where: { ISBN } });
+    return await this.booksRepository.findOne({
+      where: { ISBN },
+      relations: { publisher: true },
+    });
   }
 
   async update(
