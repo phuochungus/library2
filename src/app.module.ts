@@ -19,6 +19,7 @@ import { User } from './entity/User';
 import { UserToBook } from './entity/UserToBook';
 import { GRN } from './entity/GRN';
 import { GRNDetail } from './entity/GRN_Detail';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { GRNDetail } from './entity/GRN_Detail';
       ],
       url: process.env.DATABASE_URL,
     }),
+    BooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
