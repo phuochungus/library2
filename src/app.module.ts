@@ -17,6 +17,8 @@ import { Setting } from './entity/Setting';
 import { Tier } from './entity/Tier';
 import { User } from './entity/User';
 import { UserToBook } from './entity/UserToBook';
+import { GRN } from './entity/GRN';
+import { GRNDetail } from './entity/GRN_Detail';
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { UserToBook } from './entity/UserToBook';
         Tier,
         User,
         UserToBook,
+        GRN,
+        GRNDetail,
       ],
       url: process.env.DATABASE_URL,
     }),

@@ -14,6 +14,7 @@ import { Publisher } from './Publisher';
 import { Author } from './Author';
 import { Genre } from './Genre';
 import { UserToBook } from './UserToBook';
+import { GRNDetail } from './GRN_Detail';
 
 @Entity({ orderBy: { importedDate: 'DESC' } })
 export class Book {
@@ -60,4 +61,7 @@ export class Book {
 
   @OneToMany(() => UserToBook, (userToBook) => userToBook.book)
   userToBooks: UserToBook[];
+
+  @OneToMany(() => GRNDetail, (GRNDetail) => GRNDetail.book)
+  GRNDetails: GRNDetail[];
 }
