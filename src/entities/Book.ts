@@ -15,25 +15,34 @@ import { Author } from './Author';
 import { Genre } from './Genre';
 import { UserToBook } from './UserToBook';
 import { GRNDetail } from './GRN_Detail';
+import { IsDate, IsISBN, IsInt, IsString, Min } from 'class-validator';
 
 @Entity({ orderBy: { importedDate: 'DESC' } })
 export class Book {
   @PrimaryColumn()
+  @IsISBN()
   ISBN: string;
 
   @Column()
+  @IsString()
   name: string;
 
   @Column()
+  @IsInt()
+  @Min(0)
   quantity: number;
 
   @Column({ name: 'published_year' })
+  @IsInt()
+  @Min(1)
   publishedYear: number;
 
   @CreateDateColumn({ name: 'imported_date' })
+  @IsDate()
   importedDate: Date;
 
   @UpdateDateColumn({ name: 'updated_date' })
+  @IsDate()
   updatedDate: Date;
 
   @OneToMany(
@@ -59,7 +68,9 @@ export class Book {
   @ManyToMany(() => Genre, (genre) => genre.books, { cascade: true })
   genres: Genre[];
 
-  @OneToMany(() => UserToBook, (userToBook) => userToBook.book)
+  @OneToMany(() => UserToBook, (userToBook) => userToBook.book, {
+    nullable: true,
+  })
   userToBooks: UserToBook[];
 
   @OneToMany(() => GRNDetail, (GRNDetail) => GRNDetail.book)

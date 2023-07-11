@@ -56,7 +56,9 @@ export class User {
   })
   fineReceipts: FineReceipt[];
 
-  @OneToMany(() => UserToBook, (userToBook) => userToBook.user)
+  @OneToMany(() => UserToBook, (userToBook) => userToBook.user, {
+    nullable: true,
+  })
   userToBooks: UserToBook[];
 
   @CreateDateColumn({ name: 'created_date' })

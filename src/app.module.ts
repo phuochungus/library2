@@ -3,23 +3,28 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { Book } from './entity/Book';
-import { Admin } from './entity/Admin';
-import { Author } from './entity/Author';
-import { BorrowReceiptDetail } from './entity/Borrow_Receipt_Detail';
-import { BorrowReceipt } from './entity/Borrow_Receipt';
-import { FineReceipt } from './entity/Fine_Receipt';
-import { Genre } from './entity/Genre';
-import { Publisher } from './entity/Publisher';
-import { ReturnReceipt } from './entity/Return_Receipt';
-import { ReturnReceiptDetail } from './entity/Return_Receipt_Detail';
-import { Setting } from './entity/Setting';
-import { Tier } from './entity/Tier';
-import { User } from './entity/User';
-import { UserToBook } from './entity/UserToBook';
-import { GRN } from './entity/GRN';
-import { GRNDetail } from './entity/GRN_Detail';
 import { BooksModule } from './books/books.module';
+import { PublishersModule } from './publishers/publishers.module';
+import { IdGeneratorModule } from './id_generator/id_generator.module';
+import { AdminsModule } from './admins/admins.module';
+import {
+  Admin,
+  Author,
+  Book,
+  BorrowReceipt,
+  BorrowReceiptDetail,
+  FineReceipt,
+  GRN,
+  GRNDetail,
+  Genre,
+  Publisher,
+  ReturnReceipt,
+  ReturnReceiptDetail,
+  Setting,
+  Tier,
+  User,
+  UserToBook,
+} from './entities';
 
 @Module({
   imports: [
@@ -52,6 +57,9 @@ import { BooksModule } from './books/books.module';
       url: process.env.DATABASE_URL,
     }),
     BooksModule,
+    PublishersModule,
+    IdGeneratorModule,
+    AdminsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
