@@ -9,25 +9,21 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Book } from '../entities';
+import { AbstractRepository } from '../abstracts';
 
-export abstract class BooksRepostory {
-  abstract create(createBookDto: CreateBookDto): Promise<Book | null>;
-  abstract findAll(): Promise<Book[]>;
-  abstract findOne(ISBN: string): Promise<Book | null>;
-  abstract update(
-    ISBN: string,
-    updateBookDto: UpdateBookDto,
-  ): Promise<Book | null>;
-  abstract remove(ISBN: string): Promise<void>;
-  abstract removeAll(): Promise<void>;
-}
+export abstract class BooksRepostory extends AbstractRepository<
+  Book,
+  CreateBookDto,
+  UpdateBookDto
+> {}
 
 @Injectable()
-export class BooksService implements BooksRepostory {
+export class StandardBooksRepository implements BooksRepostory {
   constructor(
     @InjectRepository(Book)
     private booksRepository: Repository<Book>,
   ) {}
+  
   async removeAll(): Promise<void> {
     await this.booksRepository.delete({});
   }

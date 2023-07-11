@@ -15,35 +15,35 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('book')
 @Controller('books')
 export class BooksController {
-  constructor(private readonly booksService: BooksRepostory) {}
+  constructor(private readonly booksRepository: BooksRepostory) {}
 
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
-    return this.booksService.create(createBookDto);
+    return this.booksRepository.create(createBookDto);
   }
 
   @Get()
   findAll() {
-    return this.booksService.findAll();
+    return this.booksRepository.findAll();
   }
 
   @Get(':ISBN')
   findOne(@Param('ISBN') ISBN: string) {
-    return this.booksService.findOne(ISBN);
+    return this.booksRepository.findOne(ISBN);
   }
 
   @Patch(':ISBN')
   update(@Param('ISBN') ISBN: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(ISBN, updateBookDto);
+    return this.booksRepository.update(ISBN, updateBookDto);
   }
 
   @Delete(':ISBN')
   remove(@Param('ISBN') ISBN: string) {
-    return this.booksService.remove(ISBN);
+    return this.booksRepository.remove(ISBN);
   }
 
   @Delete()
   removeAll() {
-    return this.booksService.removeAll();
+    return this.booksRepository.removeAll();
   }
 }

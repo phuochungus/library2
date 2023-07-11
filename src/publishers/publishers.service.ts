@@ -10,15 +10,7 @@ import { Publisher } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IdGenerator } from '../id_generator/id_generator.service';
-
-export abstract class AbstractRepository<T, C, U> {
-  abstract create(createBookDto: C): Promise<T | null>;
-  abstract findAll(): Promise<T[]>;
-  abstract findOne(ISBN: string): Promise<T | null>;
-  abstract update(ISBN: string, updateBookDto: U): Promise<T | null>;
-  abstract remove(ISBN: string): Promise<void>;
-  abstract removeAll(): Promise<void>;
-}
+import { AbstractRepository } from '../abstracts';
 
 export abstract class PublishersRepository extends AbstractRepository<
   Publisher,

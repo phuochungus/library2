@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import {
-  AbstractRepository,
   PublishersRepository,
   StandardPublishersRepository,
 } from './publishers.service';
