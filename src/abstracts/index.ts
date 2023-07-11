@@ -1,1 +1,1 @@
-export { AbstractRepository } from './repository.abstract';
+export { BasicRepository } from './repository.abstract';
