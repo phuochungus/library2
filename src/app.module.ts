@@ -27,6 +27,7 @@ import {
 } from './entities';
 import { GdnsModule } from './gdns/gdns.module';
 import { GdnDetailsModule } from './gdn_details/gdn_details.module';
+import { AuthorsModule } from './authors/authors.module';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { GdnDetailsModule } from './gdn_details/gdn_details.module';
     AdminsModule,
     GdnsModule,
     GdnDetailsModule,
+    AuthorsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

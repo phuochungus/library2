@@ -7,9 +7,10 @@ import {
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Book } from '../entities';
+import { DataSource, In, Repository } from 'typeorm';
+import { Book, Genre } from '../entities';
 import { BasicRepository } from '../abstracts';
+import _ from 'lodash';
 
 export abstract class BooksRepostory extends BasicRepository<
   Book,
@@ -22,6 +23,9 @@ export class StandardBooksRepository implements BooksRepostory {
   constructor(
     @InjectRepository(Book)
     private booksRepository: Repository<Book>,
+    @InjectRepository(Genre)
+    private genresRepository: Repository<Genre>,
+    private dataSource: DataSource,
   ) {}
 
   async removeAll(): Promise<void> {
@@ -29,15 +33,33 @@ export class StandardBooksRepository implements BooksRepostory {
   }
 
   async create(createBookDto: CreateBookDto): Promise<Book | null> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
     try {
+      const genres: Genre[] = await this.genresRepository.find({
+        where: {
+          id: In(createBookDto.genreIds),
+        },
+      });
+      if (genres.length != createBookDto.genreIds.length)
+        throw new NotFoundException(
+          `Not found following genre'Id(s): ${_.difference(
+            createBookDto.genreIds,
+            genres.map((genre) => genre.id),
+          )}`,
+        );
       const result = await this.booksRepository.insert(createBookDto);
       return await this.booksRepository.findOne({
         where: result.identifiers[0],
       });
     } catch (error) {
+      queryRunner.rollbackTransaction();
       if (error.code) throw new ConflictException('ISBN already existed');
-      console.error(error);
+      if (!(error instanceof HttpException)) console.error(error);
       throw error;
+    } finally {
+      queryRunner.release();
     }
   }
 

@@ -10,11 +10,17 @@ import {
 import { BooksRepostory } from './books.service';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateBookDto } from './dto/create-book.dto';
 
 @ApiTags('book')
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksRepository: BooksRepostory) {}
+
+  @Post()
+  async create(@Body() createBookDto: CreateBookDto) {
+    return await this.booksRepository.create(createBookDto);
+  }
 
   @Get()
   findAll() {
