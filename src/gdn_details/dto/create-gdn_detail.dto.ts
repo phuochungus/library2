@@ -1,9 +1,20 @@
+import {
+  IsInt,
+  IsNumber,
+  IsNumberString,
+  ValidateNested,
+} from 'class-validator';
 import { CreateBookDto } from '../../books/dto/create-book.dto';
-import { GDN } from '../../entities';
-import { ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateGdnDetailDto {
   @ValidateNested()
+  @Type(() => CreateBookDto)
   book: CreateBookDto;
-  note: GDN;
+
+  @IsInt()
+  quantity: number;
+
+  @IsNumber()
+  price: number;
 }

@@ -5,12 +5,12 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { GDNDetail } from '../../gdn_details/entities/GDN_Detail.entity';
+import { GDNDetail } from '../../gdn_details/entities/GDN_detail.entity';
 
 @Entity({ name: 'goods_delivery_note' })
 export class GDN {
   @PrimaryColumn()
-  id: number;
+  id: string;
 
   @CreateDateColumn({ name: 'created_date' })
   createdDate: Date;
@@ -21,6 +21,6 @@ export class GDN {
   @Column({ name: 'total_quantity' })
   totalQuantity: number;
 
-  @OneToMany(() => GDNDetail, (GRNDetail) => GRNDetail.note)
+  @OneToMany(() => GDNDetail, (GRNDetail) => GRNDetail.note, { cascade: true })
   details: GDNDetail[];
 }

@@ -32,7 +32,7 @@ export class StandardBooksRepository implements BooksRepostory {
     private dataSource: DataSource,
   ) {}
 
-  async create(createBookDto: CreateBookDto): Promise<Book | null> {
+  async create(createBookDto: CreateBookDto): Promise<Book> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -80,6 +80,7 @@ export class StandardBooksRepository implements BooksRepostory {
       createdBook.publisher = publisher;
       createdBook.authors = authors;
       await this.booksRepository.insert(createdBook);
+      await queryRunner.commitTransaction();
       return createdBook;
     } catch (error) {
       await queryRunner.rollbackTransaction();
@@ -106,7 +107,7 @@ export class StandardBooksRepository implements BooksRepostory {
   async findOne(ISBN: string): Promise<Book | null> {
     return await this.booksRepository.findOne({
       where: { ISBN },
-      relations: { publisher: true },
+      relations: { publisher: true, authors: true, genres: true },
       withDeleted: true,
     });
   }

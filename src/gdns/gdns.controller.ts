@@ -3,13 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
 } from '@nestjs/common';
 import { GdnsService } from './gdns.service';
 import { CreateGdnDto } from './dto/create-gdn.dto';
-import { UpdateGdnDto } from './dto/update-gdn.dto';
 
 @Controller('gdns')
 export class GdnsController {

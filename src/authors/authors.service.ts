@@ -21,7 +21,7 @@ export class StandardAuthorsService {
     private idGenerator: IdGenerator,
   ) {}
 
-  async create(createAuthorDto: CreateAuthorDto) {
+  async create(createAuthorDto: CreateAuthorDto): Promise<Author> {
     try {
       const author = this.authorsRepository.create(createAuthorDto);
       author.id = this.idGenerator.generate();

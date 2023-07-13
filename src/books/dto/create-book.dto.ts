@@ -9,10 +9,6 @@ export class CreateBookDto {
 
   @IsInt()
   @Min(1)
-  quantity: number;
-
-  @IsInt()
-  @Min(1)
   publishedYear: number;
 
   @IsNumberString({ no_symbols: true })

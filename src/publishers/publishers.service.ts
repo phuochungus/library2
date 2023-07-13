@@ -30,18 +30,14 @@ export class StandardPublishersRepository implements PublishersRepository {
     private idGenerator: IdGenerator,
   ) {}
 
-  async create(
-    createPublisherDto: CreatePublisherDto,
-  ): Promise<Publisher | null> {
+  async create(createPublisherDto: CreatePublisherDto): Promise<Publisher> {
     try {
       const publisher = this.publisersRespository.create({
         ...createPublisherDto,
         id: this.idGenerator.generate().toString(),
       });
-      const result = await this.publisersRespository.insert(publisher);
-      return await this.publisersRespository.findOne({
-        where: result.identifiers[0],
-      });
+      await this.publisersRespository.insert(publisher);
+      return publisher;
     } catch (error) {
       if (error.code) throw new ConflictException('publisher already exist');
       console.error(error);

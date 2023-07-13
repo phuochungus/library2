@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGdnDetailDto } from './dto/create-gdn_detail.dto';
 import { UpdateGdnDetailDto } from './dto/update-gdn_detail.dto';
+import { GDN, GDNDetail } from '../entities';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class GdnDetailsService {
-  create(createGdnDetailDto: CreateGdnDetailDto) {
-    return 'This action adds a new gdnDetail';
-  }
+  constructor(
+    @InjectRepository(GDNDetail)
+    private GDNDetailRepository: Repository<GDNDetail>,
+  ) {}
+
+  create(createGdnDetailDto: CreateGdnDetailDto) {}
 
   findAll() {
     return `This action returns all gdnDetails`;

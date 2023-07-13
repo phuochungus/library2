@@ -5,9 +5,9 @@ import { GDN } from '../../gdns/entities/gdn.entity';
 @Entity({ name: 'goods_delivery_note_detail' })
 export class GDNDetail {
   @PrimaryColumn()
-  id: number;
+  id: string;
 
-  @ManyToOne(() => Book, (book) => book.GRNDetails)
+  @ManyToOne(() => Book, (book) => book.GRNDetails, { cascade: true })
   book: Book;
 
   @Column()
@@ -18,4 +18,10 @@ export class GDNDetail {
 
   @Column()
   noteId: string;
+
+  @Column()
+  quantity: number;
+
+  @Column({ type: 'money' })
+  price: number;
 }

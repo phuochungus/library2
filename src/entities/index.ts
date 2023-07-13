@@ -5,7 +5,7 @@ export { BorrowReceipt } from './Borrow_Receipt';
 export { BorrowReceiptDetail } from './Borrow_Receipt_Detail';
 export { FineReceipt } from './Fine_Receipt';
 export { GDN } from '../gdns/entities/gdn.entity';
-export { GDNDetail } from '../gdn_details/entities/GDN_Detail.entity';
+export { GDNDetail } from '../gdn_details/entities/GDN_detail.entity';
 export { Genre } from '../genres/entities/genre.entity';
 export { Publisher } from '../publishers/entities/publisher.entitiy';
 export { ReturnReceipt } from './Return_Receipt';
