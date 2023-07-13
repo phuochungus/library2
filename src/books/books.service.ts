@@ -32,10 +32,6 @@ export class StandardBooksRepository implements BooksRepostory {
     private dataSource: DataSource,
   ) {}
 
-  async removeAll(): Promise<void> {
-    await this.booksRepository.softDelete({});
-  }
-
   async create(createBookDto: CreateBookDto): Promise<Book | null> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();

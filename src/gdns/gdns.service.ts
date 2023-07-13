@@ -23,10 +23,9 @@ export class GdnsService implements GDNsRepository {
     @InjectRepository(GDNDetail)
     private gdnDetailsRepository: Repository<GDNDetail>,
   ) {}
-  
+
   create(createDto: CreateGdnDto): Promise<GDN | null> {
     throw new Error('Method not implemented.');
-
   }
   findAll(): Promise<GDN[]> {
     throw new Error('Method not implemented.');
@@ -38,9 +37,6 @@ export class GdnsService implements GDNsRepository {
     throw new Error('Method not implemented.');
   }
   remove(identifier: any): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-  removeAll(): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

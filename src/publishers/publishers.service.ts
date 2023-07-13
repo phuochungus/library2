@@ -30,10 +30,6 @@ export class StandardPublishersRepository implements PublishersRepository {
     private idGenerator: IdGenerator,
   ) {}
 
-  removeAll(): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
   async create(
     createPublisherDto: CreatePublisherDto,
   ): Promise<Publisher | null> {
@@ -85,7 +81,7 @@ export class StandardPublishersRepository implements PublishersRepository {
 
   async remove(id: string) {
     try {
-      const result = await this.publisersRespository.delete({ id });
+      const result = await this.publisersRespository.softDelete({ id });
       if (result.affected == 0) throw new NotFoundException();
     } catch (error) {
       if (!(error instanceof HttpException)) console.error(error);

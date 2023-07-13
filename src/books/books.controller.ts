@@ -42,11 +42,6 @@ export class BooksController {
     return this.booksRepository.remove(ISBN);
   }
 
-  @Delete()
-  removeAll() {
-    return this.booksRepository.removeAll();
-  }
-
   @Post(':ISBN/genres')
   addGenresToBook() {
     return;
