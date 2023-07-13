@@ -14,8 +14,8 @@ import {
   BorrowReceipt,
   BorrowReceiptDetail,
   FineReceipt,
-  GRN,
-  GRNDetail,
+  GDN,
+  GDNDetail,
   Genre,
   Publisher,
   ReturnReceipt,
@@ -25,6 +25,8 @@ import {
   User,
   UserToBook,
 } from './entities';
+import { GdnsModule } from './gdns/gdns.module';
+import { GdnDetailsModule } from './gdn_details/gdn_details.module';
 
 @Module({
   imports: [
@@ -51,8 +53,8 @@ import {
         Tier,
         User,
         UserToBook,
-        GRN,
-        GRNDetail,
+        GDN,
+        GDNDetail,
       ],
       url: process.env.DATABASE_URL,
     }),
@@ -60,6 +62,8 @@ import {
     PublishersModule,
     IdGeneratorModule,
     AdminsModule,
+    GdnsModule,
+    GdnDetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
