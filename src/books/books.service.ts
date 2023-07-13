@@ -8,9 +8,9 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, In, Repository } from 'typeorm';
-import { Book, Genre } from '../entities';
+import { Author, Book, Genre, Publisher } from '../entities';
 import { BasicRepository } from '../abstracts';
-import _ from 'lodash';
+import { difference } from 'lodash';
 
 export abstract class BooksRepostory extends BasicRepository<
   Book,
@@ -25,11 +25,15 @@ export class StandardBooksRepository implements BooksRepostory {
     private booksRepository: Repository<Book>,
     @InjectRepository(Genre)
     private genresRepository: Repository<Genre>,
+    @InjectRepository(Publisher)
+    private publishersRepository: Repository<Publisher>,
+    @InjectRepository(Author)
+    private authorsRepository: Repository<Author>,
     private dataSource: DataSource,
   ) {}
 
   async removeAll(): Promise<void> {
-    await this.booksRepository.delete({});
+    await this.booksRepository.softDelete({});
   }
 
   async create(createBookDto: CreateBookDto): Promise<Book | null> {
@@ -43,30 +47,59 @@ export class StandardBooksRepository implements BooksRepostory {
         },
       });
       if (genres.length != createBookDto.genreIds.length)
-        throw new NotFoundException(
-          `Not found following genre'Id(s): ${_.difference(
+        throw new NotFoundException({
+          messaege: 'Not found genre with following id(s)',
+          ids: difference(
             createBookDto.genreIds,
             genres.map((genre) => genre.id),
-          )}`,
-        );
-      const result = await this.booksRepository.insert(createBookDto);
-      return await this.booksRepository.findOne({
-        where: result.identifiers[0],
+          ),
+        });
+
+      const publisher = await this.publishersRepository.findOne({
+        where: { id: createBookDto.publisherId },
       });
+      if (!publisher)
+        throw new NotFoundException({
+          message: 'Not found publisher with following id(s)',
+          ids: createBookDto.publisherId,
+        });
+
+      const authors = await this.authorsRepository.find({
+        where: {
+          id: In(createBookDto.authorIds),
+        },
+      });
+
+      if (authors.length != createBookDto.authorIds.length)
+        throw new NotFoundException({
+          message: 'Not found author with following id(s)',
+          ids: difference(
+            createBookDto.authorIds,
+            authors.map((author) => author.id),
+          ),
+        });
+
+      const createdBook = this.booksRepository.create(createBookDto);
+      createdBook.genres = genres;
+      createdBook.publisher = publisher;
+      createdBook.authors = authors;
+      await this.booksRepository.insert(createdBook);
+      return createdBook;
     } catch (error) {
-      queryRunner.rollbackTransaction();
-      if (error.code) throw new ConflictException('ISBN already existed');
+      await queryRunner.rollbackTransaction();
+      if (error.code == '23505')
+        throw new ConflictException('ISBN already existed');
       if (!(error instanceof HttpException)) console.error(error);
       throw error;
     } finally {
-      queryRunner.release();
+      await queryRunner.release();
     }
   }
 
   async findAll(): Promise<Book[]> {
     try {
       return await this.booksRepository.find({
-        relations: { publisher: true },
+        relations: { publisher: true, authors: true, genres: true },
       });
     } catch (error) {
       console.error(error);
@@ -78,6 +111,7 @@ export class StandardBooksRepository implements BooksRepostory {
     return await this.booksRepository.findOne({
       where: { ISBN },
       relations: { publisher: true },
+      withDeleted: true,
     });
   }
 
@@ -97,8 +131,9 @@ export class StandardBooksRepository implements BooksRepostory {
 
   async remove(ISBN: string): Promise<void> {
     try {
-      const result = await this.booksRepository.delete({ ISBN });
-      if (result.affected == 0) throw new NotFoundException();
+      const book = await this.booksRepository.findOne({ where: { ISBN } });
+      if (!book) throw new NotFoundException();
+      await this.booksRepository.softDelete(book);
     } catch (error) {
       if (!(error instanceof HttpException)) console.error(error);
       throw error;
