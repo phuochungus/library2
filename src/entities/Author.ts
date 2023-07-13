@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   PrimaryColumn,
 } from 'typeorm';
@@ -16,6 +17,7 @@ export class Author {
   name: string;
 
   @ManyToMany(() => Book, (book) => book.authors)
+  @JoinTable()
   books: Book[];
 
   @CreateDateColumn({ name: 'created_date' })

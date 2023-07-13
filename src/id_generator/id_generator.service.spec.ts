@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { StandardBooksRepository } from './books.service';
+import { IdGeneratorService } from './id_generator.service';
 
-describe('BooksService', () => {
-  let service: StandardBooksRepository;
+describe('IdGeneratorService', () => {
+  let service: IdGeneratorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [StandardBooksRepository],
+      providers: [IdGeneratorService],
     }).compile();
 
-    service = module.get<StandardBooksRepository>(StandardBooksRepository);
+    service = module.get<IdGeneratorService>(IdGeneratorService);
   });
 
   it('should be defined', () => {

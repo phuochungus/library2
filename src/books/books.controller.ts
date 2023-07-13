@@ -1,34 +1,48 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { BooksService } from './books.service';
-import { CreateBookDto } from './dto/create-book.dto';
+import {
+  Controller,
+  Get,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Post,
+} from '@nestjs/common';
+import { BooksRepostory } from './books.service';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('book')
 @Controller('books')
 export class BooksController {
-  constructor(private readonly booksService: BooksService) {}
-
-  @Post()
-  create(@Body() createBookDto: CreateBookDto) {
-    return this.booksService.create(createBookDto);
-  }
+  constructor(private readonly booksRepository: BooksRepostory) {}
 
   @Get()
   findAll() {
-    return this.booksService.findAll();
+    return this.booksRepository.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+  @Get(':ISBN')
+  findOne(@Param('ISBN') ISBN: string) {
+    return this.booksRepository.findOne(ISBN);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, updateBookDto);
+  @Patch(':ISBN')
+  update(@Param('ISBN') ISBN: string, @Body() updateBookDto: UpdateBookDto) {
+    return this.booksRepository.update(ISBN, updateBookDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.booksService.remove(+id);
+  @Delete(':ISBN')
+  remove(@Param('ISBN') ISBN: string) {
+    return this.booksRepository.remove(ISBN);
+  }
+
+  @Delete()
+  removeAll() {
+    return this.booksRepository.removeAll();
+  }
+
+  @Post(':ISBN/genres')
+  addGenresToBook() {
+    return;
   }
 }

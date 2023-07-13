@@ -5,10 +5,10 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { GRNDetail } from './GRN_Detail';
+import { GDNDetail } from './GDN_Detail';
 
 @Entity({ name: 'goods_delivery_note' })
-export class GRN {
+export class GDN {
   @PrimaryColumn()
   id: number;
 
@@ -21,6 +21,6 @@ export class GRN {
   @Column({ name: 'total_quantity' })
   totalQuantity: number;
 
-  @OneToMany(() => GRNDetail, (GRNDetail) => GRNDetail.note)
-  details: GRNDetail[];
+  @OneToMany(() => GDNDetail, (GRNDetail) => GRNDetail.note)
+  details: GDNDetail[];
 }

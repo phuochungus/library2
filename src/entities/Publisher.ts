@@ -9,10 +9,10 @@ import { Book } from './Book';
 
 @Entity()
 export class Publisher {
-  @PrimaryColumn()
-  id: number;
+  @PrimaryColumn({ type: 'bigint' })
+  id: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @OneToMany(() => Book, (book) => book.publisher)

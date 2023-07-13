@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { StandardBooksRepository } from './books.service';
+import { GdnsService } from './gdns.service';
 
-describe('BooksService', () => {
-  let service: StandardBooksRepository;
+describe('GdnsService', () => {
+  let service: GdnsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [StandardBooksRepository],
+      providers: [GdnsService],
     }).compile();
 
-    service = module.get<StandardBooksRepository>(StandardBooksRepository);
+    service = module.get<GdnsService>(GdnsService);
   });
 
   it('should be defined', () => {
