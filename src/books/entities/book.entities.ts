@@ -15,7 +15,7 @@ import { Publisher } from '../../publishers/entities/publisher.entitiy';
 import { Author } from '../../authors/entities/author.entity';
 import { Genre } from '../../genres/entities/genre.entity';
 import { UserToBook } from '../../entities/UserToBook';
-import { GDNDetail } from '../../entities/GDN_Detail';
+import { GDNDetail } from '../../gdn_details/entities/GDN_Detail.entity';
 import { IsDate, IsISBN, IsInt, IsString, Min } from 'class-validator';
 
 @Entity({ orderBy: { importedDate: 'DESC' } })

@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { GDNDetail } from '../../entities/GDN_Detail';
+import { GDNDetail } from '../../gdn_details/entities/GDN_Detail.entity';
 
 @Entity({ name: 'goods_delivery_note' })
 export class GDN {
