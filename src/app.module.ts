@@ -28,6 +28,7 @@ import {
 import { GdnsModule } from './gdns/gdns.module';
 import { GdnDetailsModule } from './gdn_details/gdn_details.module';
 import { AuthorsModule } from './authors/authors.module';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -66,6 +67,7 @@ import { AuthorsModule } from './authors/authors.module';
     GdnsModule,
     GdnDetailsModule,
     AuthorsModule,
+    GenresModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,15 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, HttpException, Injectable } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { Author } from '../entities';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { BasicRepository } from '../abstracts';
+import { IdGenerator } from '../id_generator/id_generator.service';
+
+export abstract class AuthorRepository extends BasicRepository<
+  Author,
+  CreateAuthorDto,
+  UpdateAuthorDto
+> {}
 
 @Injectable()
 export class AuthorsService {
-  create(createAuthorDto: CreateAuthorDto) {
-    return 'This action adds a new author';
+  constructor(
+    @InjectRepository(Author)
+    private authorsRepository: Repository<Author>,
+    private idGenerator: IdGenerator,
+  ) {}
+
+  async create(createAuthorDto: CreateAuthorDto) {
+    try {
+      const author = this.authorsRepository.create(createAuthorDto);
+      author.id = this.idGenerator.generate();
+      await this.authorsRepository.save(author);
+      return author;
+    } catch (error) {
+      if (!(error instanceof HttpException)) console.error(error);
+      throw new BadGatewayException();
+    }
   }
 
-  findAll() {
-    return `This action returns all authors`;
+  async findAll() {
+    return await this.authorsRepository.find();
   }
 
   findOne(id: number) {

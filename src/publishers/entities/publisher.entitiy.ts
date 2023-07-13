@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { Book } from './Book';
+import { Book } from '../../books/entities/book.entities';
 
 @Entity()
 export class Publisher {

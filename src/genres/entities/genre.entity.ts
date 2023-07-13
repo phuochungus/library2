@@ -2,22 +2,20 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Book } from './Book';
+import { Book } from '../../books/entities/book.entities';
 
 @Entity()
-export class Author {
-  @PrimaryColumn()
+export class Genre {
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
 
-  @ManyToMany(() => Book, (book) => book.authors)
-  @JoinTable()
+  @ManyToMany(() => Book, (book) => book.genres)
   books: Book[];
 
   @CreateDateColumn({ name: 'created_date' })

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateGdnDto } from './dto/create-gdn.dto';
 import { UpdateGdnDto } from './dto/update-gdn.dto';
 import { BasicRepository } from '../abstracts';
-import { GDN } from '../entities/GDN';
+import { GDN } from './entities/gdn.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Book, GDNDetail } from '../entities';
@@ -26,7 +26,7 @@ export class GdnsService implements GDNsRepository {
   
   create(createDto: CreateGdnDto): Promise<GDN | null> {
     throw new Error('Method not implemented.');
-    
+
   }
   findAll(): Promise<GDN[]> {
     throw new Error('Method not implemented.');

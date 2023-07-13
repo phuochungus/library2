@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Book } from './Book';
+import { Book } from '../books/entities/book.entities';
 import { BorrowReceipt } from './Borrow_Receipt';
 
 @Entity()

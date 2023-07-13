@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Book } from './Book';
-import { GDN } from './GDN';
+import { Book } from '../books/entities/book.entities';
+import { GDN } from '../gdns/entities/gdn.entity';
 
 @Entity({ name: 'goods_delivery_note_detail' })
 export class GDNDetail {

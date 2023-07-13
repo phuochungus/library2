@@ -5,7 +5,7 @@ import {
 } from './publishers.service';
 import { PublishersController } from './publishers.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Publisher } from '../entities/Publisher';
+import { Publisher } from './entities/publisher.entitiy';
 import { Book } from '../entities';
 
 @Module({

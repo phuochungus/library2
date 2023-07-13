@@ -9,13 +9,13 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { BorrowReceiptDetail } from './Borrow_Receipt_Detail';
-import { ReturnReceiptDetail } from './Return_Receipt_Detail';
-import { Publisher } from './Publisher';
-import { Author } from './Author';
-import { Genre } from './Genre';
-import { UserToBook } from './UserToBook';
-import { GDNDetail } from './GDN_Detail';
+import { BorrowReceiptDetail } from '../../entities/Borrow_Receipt_Detail';
+import { ReturnReceiptDetail } from '../../entities/Return_Receipt_Detail';
+import { Publisher } from '../../publishers/entities/publisher.entitiy';
+import { Author } from '../../authors/entities/author.entity';
+import { Genre } from '../../genres/entities/genre.entity';
+import { UserToBook } from '../../entities/UserToBook';
+import { GDNDetail } from '../../entities/GDN_Detail';
 import { IsDate, IsISBN, IsInt, IsString, Min } from 'class-validator';
 
 @Entity({ orderBy: { importedDate: 'DESC' } })
