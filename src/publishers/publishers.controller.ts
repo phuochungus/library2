@@ -52,11 +52,13 @@ export class PublishersController {
       return this.publishersRepository.remove(id);
   }
 
-  // @Post(':id/books')
-  // async addBookIntoPublisherList(
-  //   @Param('id') id: string,
-  //   @Body('ISBN') ISBN: string,
-  // ) {
-  //   return await this.publishersRepository.(id, ISBN);
-  // }
+  @Post(':id/books')
+  async addBookIntoPublisherList(
+    @Param('id') id: string,
+    @Body('ISBN') ISBN: string,
+  ) {
+    if (ISBN)
+      return await this.publishersRepository.addBookToPublisher(ISBN, id);
+    else throw new BadRequestException('ISBN must not be empty');
+  }
 }

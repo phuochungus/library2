@@ -6,23 +6,27 @@ import {
 } from '@nestjs/common';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
-import { Publisher } from '../entities';
+import { Book, Publisher } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IdGenerator } from '../id_generator/id_generator.service';
-import { AbstractRepository } from '../abstracts';
+import { BasicRepository } from '../abstracts';
 
-export abstract class PublishersRepository extends AbstractRepository<
+export abstract class PublishersRepository extends BasicRepository<
   Publisher,
   CreatePublisherDto,
   UpdatePublisherDto
-> {}
+> {
+  abstract addBookToPublisher(ISBN: string, id: string): Promise<Book>;
+}
 
 @Injectable()
 export class StandardPublishersRepository implements PublishersRepository {
   constructor(
     @InjectRepository(Publisher)
     private publisersRespository: Repository<Publisher>,
+    @InjectRepository(Book)
+    private booksRepository: Repository<Book>,
     private idGenerator: IdGenerator,
   ) {}
 
@@ -89,5 +93,16 @@ export class StandardPublishersRepository implements PublishersRepository {
     }
   }
 
-  async addBookIntoPublisher(ISBN: string, publisherId: string) {}
+  async addBookToPublisher(ISBN: string, id: string): Promise<Book> {
+    const [book, publisher] = await Promise.all([
+      this.booksRepository.findOne({ where: { ISBN } }),
+      this.publisersRespository.findOne({ where: { id } }),
+    ]);
+    if (!book) throw new NotFoundException('Book not found');
+    if (!publisher) throw new NotFoundException('Publisher not found');
+
+    book.publisher = publisher;
+    await this.booksRepository.save(book);
+    return book;
+  }
 }
