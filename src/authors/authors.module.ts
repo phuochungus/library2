@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthorsService } from './authors.service';
+import { AuthorRepository, StandardAuthorsService } from './authors.service';
 import { AuthorsController } from './authors.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Author } from '../entities';
@@ -7,6 +7,6 @@ import { Author } from '../entities';
 @Module({
   imports: [TypeOrmModule.forFeature([Author])],
   controllers: [AuthorsController],
-  providers: [AuthorsService],
+  providers: [{ provide: AuthorRepository, useClass: StandardAuthorsService }],
 })
 export class AuthorsModule {}

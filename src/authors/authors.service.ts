@@ -1,4 +1,4 @@
-import { BadGatewayException, HttpException, Injectable } from '@nestjs/common';
+import { BadGatewayException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { Author } from '../entities';
@@ -14,7 +14,7 @@ export abstract class AuthorRepository extends BasicRepository<
 > {}
 
 @Injectable()
-export class AuthorsService {
+export class StandardAuthorsService {
   constructor(
     @InjectRepository(Author)
     private authorsRepository: Repository<Author>,
@@ -37,15 +37,38 @@ export class AuthorsService {
     return await this.authorsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  async findOne(id: string) {
+    return await this.authorsRepository.findOne({
+      where: { id },
+      relations: {
+        books: true,
+      },
+      withDeleted: true,
+    });
   }
 
-  update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return `This action updates a #${id} author`;
+  async update(id: string, updateAuthorDto: UpdateAuthorDto) {
+    try {
+      const result = await this.authorsRepository.update(
+        { id },
+        updateAuthorDto,
+      );
+      if (result.affected == 0) return null;
+      return await this.authorsRepository.findOne({ where: { id } });
+    } catch (error) {
+      console.error;
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  async remove(id: string) {
+    try {
+      const book = await this.authorsRepository.findOne({ where: { id } });
+      if (!book) throw new NotFoundException();
+      await this.authorsRepository.softDelete(book);
+    } catch (error) {
+      if (!(error instanceof HttpException)) console.error(error);
+      throw error;
+    }
   }
 }
