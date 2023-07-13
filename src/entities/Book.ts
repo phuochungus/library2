@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -14,7 +15,7 @@ import { Publisher } from './Publisher';
 import { Author } from './Author';
 import { Genre } from './Genre';
 import { UserToBook } from './UserToBook';
-import { GRNDetail } from './GRN_Detail';
+import { GDNDetail } from './GDN_Detail';
 import { IsDate, IsISBN, IsInt, IsString, Min } from 'class-validator';
 
 @Entity({ orderBy: { importedDate: 'DESC' } })
@@ -62,10 +63,14 @@ export class Book {
   @ManyToOne(() => Publisher, (publisher) => publisher.books, { cascade: true })
   publisher: Publisher;
 
-  @ManyToOne(() => Author, (author) => author.books, { cascade: true })
+  @Column()
+  publisherId: string;
+
+  @ManyToMany(() => Author, (author) => author.books, { cascade: true })
   authors: Author[];
 
   @ManyToMany(() => Genre, (genre) => genre.books, { cascade: true })
+  @JoinTable()
   genres: Genre[];
 
   @OneToMany(() => UserToBook, (userToBook) => userToBook.book, {
@@ -73,6 +78,6 @@ export class Book {
   })
   userToBooks: UserToBook[];
 
-  @OneToMany(() => GRNDetail, (GRNDetail) => GRNDetail.book)
-  GRNDetails: GRNDetail[];
+  @OneToMany(() => GDNDetail, (GRNDetail) => GRNDetail.book)
+  GRNDetails: GDNDetail[];
 }

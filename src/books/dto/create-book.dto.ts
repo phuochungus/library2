@@ -1,4 +1,14 @@
-import { IsISBN, IsInt, IsString, Min } from 'class-validator';
+import {
+  IsISBN,
+  IsInt,
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsString,
+  Min,
+  ValidateIf,
+  isEmpty,
+} from 'class-validator';
 
 export class CreateBookDto {
   @IsISBN()
@@ -15,19 +25,32 @@ export class CreateBookDto {
   @Min(1)
   publishedYear: number;
 
-  @IsInt()
-  @Min(1)
-  publisherId: number;
+  @IsOptional()
+  @IsNumberString({ no_symbols: true })
+  publisherId?: string;
 
-  @IsInt({ each: true })
-  @Min(1, { each: true })
-  authorIds: number[];
+  // @ValidateIf((createBookDto: CreateBookDto) =>
+  //   isEmpty(createBookDto.publisherId),
+  // )
+  // @IsString()
+  // @IsNotEmpty()
+  // publisherName: string;
 
-  @IsInt({ each: true })
-  @Min(1, { each: true })
-  genreIds: number[];
+  @IsOptional()
+  @IsNumberString({ no_symbols: true }, { each: true })
+  authorIds?: string[];
 
-  @IsInt({ each: true })
-  @Min(1, { each: true })
-  GRNDetailIds: number[];
+  // @ValidateIf((createBookDto: CreateBookDto) =>
+  //   isEmpty(createBookDto.authorIds),
+  // )
+  // @IsString({ each: true })
+  // authorNames?: string[];
+
+  @IsOptional()
+  @IsNumberString({ no_symbols: true }, { each: true })
+  genreIds?: string[];
+
+  // @ValidateIf((createBookDto: CreateBookDto) => isEmpty(createBookDto.genreIds))
+  // @IsString({ each: true })
+  // genreNames?: string[];
 }
