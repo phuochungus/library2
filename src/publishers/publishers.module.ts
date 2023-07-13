@@ -6,9 +6,10 @@ import {
 import { PublishersController } from './publishers.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Publisher } from '../entities/Publisher';
+import { Book } from '../entities';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Publisher])],
+  imports: [TypeOrmModule.forFeature([Publisher, Book])],
   controllers: [PublishersController],
   providers: [
     { provide: PublishersRepository, useClass: StandardPublishersRepository },
