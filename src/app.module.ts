@@ -29,6 +29,7 @@ import { GdnsModule } from './gdns/gdns.module';
 import { GdnDetailsModule } from './gdn_details/gdn_details.module';
 import { AuthorsModule } from './authors/authors.module';
 import { GenresModule } from './genres/genres.module';
+import { TiersModule } from './tiers/tiers.module';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { GenresModule } from './genres/genres.module';
     GdnDetailsModule,
     AuthorsModule,
     GenresModule,
+    TiersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

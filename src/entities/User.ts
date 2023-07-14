@@ -8,7 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Tier } from './Tier';
+import { Tier } from '../tiers/entities/tier.entity';
 import { BorrowReceipt } from './Borrow_Receipt';
 import { FineReceipt as FineReceipt } from './Fine_Receipt';
 import { UserToBook } from './UserToBook';

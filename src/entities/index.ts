@@ -11,6 +11,6 @@ export { Publisher } from '../publishers/entities/publisher.entitiy';
 export { ReturnReceipt } from './Return_Receipt';
 export { ReturnReceiptDetail } from './Return_Receipt_Detail';
 export { Setting } from './Setting';
-export { Tier } from './Tier';
+export { Tier } from '../tiers/entities/tier.entity';
 export { User } from './User';
 export { UserToBook } from './UserToBook';
