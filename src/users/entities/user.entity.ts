@@ -8,10 +8,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Tier } from '../tiers/entities/tier.entity';
-import { BorrowReceipt } from './Borrow_Receipt';
-import { FineReceipt as FineReceipt } from './Fine_Receipt';
-import { UserToBook } from './UserToBook';
+import { Tier } from '../../tiers/entities/tier.entity';
+import { BorrowReceipt } from '../../entities/Borrow_Receipt';
+import { FineReceipt as FineReceipt } from '../../entities/Fine_Receipt';
+import { UserToBook } from '../../entities/UserToBook';
 
 @Entity()
 export class User {

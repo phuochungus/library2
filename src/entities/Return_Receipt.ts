@@ -6,7 +6,7 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
-import { User } from './User';
+import { User } from '../users/entities/user.entity';
 import { BorrowReceiptDetail } from './Borrow_Receipt_Detail';
 
 @Entity({ orderBy: { id: 'DESC' } })

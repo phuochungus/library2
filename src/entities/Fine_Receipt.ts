@@ -1,5 +1,5 @@
 import { CreateDateColumn, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { User } from './User';
+import { User } from '../users/entities/user.entity';
 
 @Entity()
 export class FineReceipt {
