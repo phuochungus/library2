@@ -80,13 +80,19 @@ export class GdnsService implements GDNsRepository {
       },
     });
   }
-  findOne(identifier: any): Promise<GDN | null> {
-    throw new Error('Method not implemented.');
-  }
-  update(identifier: any, updateDto: UpdateGdnDto): Promise<GDN | null> {
-    throw new Error('Method not implemented.');
-  }
-  remove(identifier: any): Promise<void> {
-    throw new Error('Method not implemented.');
+  async findOne(id: string): Promise<GDN | null> {
+    try {
+      return await this.GDNsRepository.findOne({
+        where: {
+          id,
+        },
+        relations: {
+          details: true,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      throw new BadGatewayException();
+    }
   }
 }
