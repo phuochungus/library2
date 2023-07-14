@@ -37,21 +37,6 @@ export class PublishersController {
     } else throw new BadRequestException('Id must a integer number');
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePublisherDto: UpdatePublisherDto,
-  ) {
-    if (isNumberString(id, { no_symbols: true }))
-      return this.publishersRepository.update(id, updatePublisherDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    if (isNumberString(id, { no_symbols: true }))
-      return this.publishersRepository.remove(id);
-  }
-
   @Post(':id/books')
   async addBookIntoPublisherList(
     @Param('id') id: string,
