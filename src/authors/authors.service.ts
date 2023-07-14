@@ -1,4 +1,9 @@
-import { BadGatewayException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadGatewayException,
+  HttpException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { Author } from '../entities';
@@ -11,7 +16,13 @@ export abstract class AuthorRepository extends BasicRepository<
   Author,
   CreateAuthorDto,
   UpdateAuthorDto
-> {}
+> {
+  abstract update(
+    identifier: any,
+    updateDto: UpdateAuthorDto,
+  ): Promise<Author | null>;
+  abstract remove(identifier: any): Promise<void>;
+}
 
 @Injectable()
 export class StandardAuthorsService {

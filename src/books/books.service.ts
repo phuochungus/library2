@@ -16,7 +16,13 @@ export abstract class BooksRepostory extends BasicRepository<
   Book,
   CreateBookDto,
   UpdateBookDto
-> {}
+> {
+  abstract update(
+    identifier: any,
+    updateDto: UpdateBookDto,
+  ): Promise<Book | null>;
+  abstract remove(identifier: any): Promise<void>;
+}
 
 @Injectable()
 export class StandardBooksRepository implements BooksRepostory {
