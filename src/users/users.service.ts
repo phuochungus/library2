@@ -25,6 +25,8 @@ export abstract class UserRepository extends BasicRepository<
     identifier: any,
     updateDto: UpdateUserDto,
   ): Promise<User | null>;
+
+  abstract findOneByEmail(email: string): Promise<User | null>;
 }
 @Injectable()
 export class StandardUserRepository implements UserRepository {
@@ -36,6 +38,10 @@ export class StandardUserRepository implements UserRepository {
     private dataSource: DataSource,
     private IdGenerator: IdGenerator,
   ) {}
+
+  async findOneByEmail(email: string): Promise<User | null> {
+    return await this.userRepository.findOne({ where: { email } });
+  }
 
   async create(createDto: CreateUserDto): Promise<User> {
     const queryRunner = this.dataSource.createQueryRunner();

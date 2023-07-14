@@ -8,5 +8,6 @@ import { Tier, User } from '../entities';
   imports: [TypeOrmModule.forFeature([User, Tier])],
   controllers: [UsersController],
   providers: [{ provide: UserRepository, useClass: StandardUserRepository }],
+  exports: [UserRepository],
 })
 export class UsersModule {}
