@@ -5,7 +5,7 @@ import { BasicRepository } from '../abstracts';
 import { GDN } from './entities/gdn.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { BooksRepostory } from '../books/books.service';
+import { BookRepostory } from '../books/books.service';
 import { IdGenerator } from '../id_generator/id_generator.service';
 import { Book, GDNDetail } from '../entities';
 
@@ -25,7 +25,7 @@ export class GdnsService implements GDNsRepository {
     @InjectRepository(GDNDetail)
     private GDNDetailsRepository: Repository<GDNDetail>,
     private dataSource: DataSource,
-    private bookRepository: BooksRepostory,
+    private bookRepository: BookRepostory,
     private idGenerator: IdGenerator,
   ) {}
 

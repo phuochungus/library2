@@ -15,9 +15,15 @@ export abstract class GenreRepository extends BasicRepository<
   Genre,
   CreateGenreDto,
   UpdateGenreDto
-> {}
+> {
+  abstract update(
+    identifier: any,
+    updateDto: UpdateGenreDto,
+  ): Promise<Genre | null>;
+  abstract remove(identifier: any): Promise<void>;
+}
 @Injectable()
-export class GenresService implements GenreRepository {
+export class StandardGenreRepository implements GenreRepository {
   constructor(
     @InjectRepository(Genre)
     private genresRepository: Repository<Genre>,

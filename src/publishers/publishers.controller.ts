@@ -7,28 +7,28 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { PublishersRepository } from './publishers.service';
+import { PublisherRepository } from './publishers.service';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { isNumberString } from 'class-validator';
 
 @Controller('publishers')
 export class PublishersController {
-  constructor(private readonly publishersRepository: PublishersRepository) {}
+  constructor(private readonly publisherRepository: PublisherRepository) {}
 
   @Post()
   create(@Body() createPublisherDto: CreatePublisherDto) {
-    return this.publishersRepository.create(createPublisherDto);
+    return this.publisherRepository.create(createPublisherDto);
   }
 
   @Get()
   findAll() {
-    return this.publishersRepository.findAll();
+    return this.publisherRepository.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
     if (isNumberString(id, { no_symbols: true })) {
-      const publisher = await this.publishersRepository.findOne(id);
+      const publisher = await this.publisherRepository.findOne(id);
       if (publisher) return publisher;
       throw new NotFoundException('Publisher not found');
     } else throw new BadRequestException('Id must a integer number');
@@ -40,7 +40,7 @@ export class PublishersController {
     @Body('ISBN') ISBN: string,
   ) {
     if (ISBN)
-      return await this.publishersRepository.addBookToPublisher(ISBN, id);
+      return await this.publisherRepository.addBookToPublisher(ISBN, id);
     else throw new BadRequestException('ISBN must not be empty');
   }
 }

@@ -12,7 +12,7 @@ import { Author, Book, Genre, Publisher } from '../entities';
 import { BasicRepository } from '../abstracts';
 import { difference } from 'lodash';
 
-export abstract class BooksRepostory extends BasicRepository<
+export abstract class BookRepostory extends BasicRepository<
   Book,
   CreateBookDto,
   UpdateBookDto
@@ -25,7 +25,7 @@ export abstract class BooksRepostory extends BasicRepository<
 }
 
 @Injectable()
-export class StandardBooksRepository implements BooksRepostory {
+export class StandardBookRepository implements BookRepostory {
   constructor(
     @InjectRepository(Book)
     private booksRepository: Repository<Book>,

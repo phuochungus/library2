@@ -25,7 +25,7 @@ export abstract class AuthorRepository extends BasicRepository<
 }
 
 @Injectable()
-export class StandardAuthorsService {
+export class StandardAuthorRepository implements AuthorRepository {
   constructor(
     @InjectRepository(Author)
     private authorsRepository: Repository<Author>,

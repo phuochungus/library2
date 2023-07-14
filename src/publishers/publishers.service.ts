@@ -12,7 +12,7 @@ import { Repository } from 'typeorm';
 import { IdGenerator } from '../id_generator/id_generator.service';
 import { BasicRepository } from '../abstracts';
 
-export abstract class PublishersRepository extends BasicRepository<
+export abstract class PublisherRepository extends BasicRepository<
   Publisher,
   CreatePublisherDto,
   UpdatePublisherDto
@@ -21,7 +21,7 @@ export abstract class PublishersRepository extends BasicRepository<
 }
 
 @Injectable()
-export class StandardPublishersRepository implements PublishersRepository {
+export class StandardPublisherRepository implements PublisherRepository {
   constructor(
     @InjectRepository(Publisher)
     private publisersRespository: Repository<Publisher>,
