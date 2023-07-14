@@ -41,6 +41,7 @@ export class StandardTierRepository implements TierRepository {
       throw new BadGatewayException();
     }
   }
+  
   async findAll(): Promise<Tier[]> {
     try {
       return await this.tiersRespository.find();
@@ -59,6 +60,7 @@ export class StandardTierRepository implements TierRepository {
       throw new BadGatewayException();
     }
   }
+
   async update(id: number, updateDto: UpdateTierDto): Promise<Tier | null> {
     try {
       const result = await this.tiersRespository.update({ id }, updateDto);
@@ -69,6 +71,7 @@ export class StandardTierRepository implements TierRepository {
       throw error;
     }
   }
+
   async remove(id: number): Promise<void> {
     try {
       const result = await this.tiersRespository.delete({ id });

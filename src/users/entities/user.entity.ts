@@ -1,22 +1,26 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToOne,
   JoinColumn,
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  PrimaryColumn,
+  Index,
+  DeleteDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { Tier } from '../../tiers/entities/tier.entity';
 import { BorrowReceipt } from '../../entities/Borrow_Receipt';
-import { FineReceipt as FineReceipt } from '../../entities/Fine_Receipt';
+import { FineReceipt } from '../../entities/Fine_Receipt';
 import { UserToBook } from '../../entities/UserToBook';
+import { Exclude } from 'class-transformer';
 
 @Entity()
+@Index(['email'], { unique: true })
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column()
   name: string;
@@ -24,6 +28,7 @@ export class User {
   @Column()
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 
@@ -36,15 +41,18 @@ export class User {
   @Column({ name: 'valid_until' })
   validUntil: Date;
 
-  @Column({ name: 'number_of_borrowing_books' })
-  numberOfBorrowingBooks: number;
+  @Column({ name: 'number_of_borrowing_books', default: 0 })
+  numberOfBorrowingBooks: number = 0;
 
-  @Column({ type: 'money' })
-  debt: number;
+  @Column({ type: 'money', default: 0 })
+  debt: number = 0;
 
-  @OneToOne(() => Tier)
-  @JoinColumn()
+  @ManyToOne(() => Tier)
+  @JoinColumn({ name: 'tier_id' })
   tier: Tier;
+
+  @Column({ name: 'tier_id' })
+  tierId: number;
 
   @OneToMany(() => BorrowReceipt, (borrowReceipt) => borrowReceipt.user, {
     cascade: true,
@@ -66,4 +74,8 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_date' })
   updatedDate: Date;
+
+  @Exclude()
+  @DeleteDateColumn({ name: 'deleted_date' })
+  deletedDate?: Date;
 }
