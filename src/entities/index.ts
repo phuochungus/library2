@@ -10,7 +10,7 @@ export { Genre } from '../genres/entities/genre.entity';
 export { Publisher } from '../publishers/entities/publisher.entitiy';
 export { ReturnReceipt } from './Return_Receipt';
 export { ReturnReceiptDetail } from './Return_Receipt_Detail';
-export { Setting } from './Setting';
+export { Setting } from '../settings/entities/setting.entity';
 export { Tier } from '../tiers/entities/tier.entity';
 export { User } from '../users/entities/user.entity';
 export { UserToBook } from './UserToBook';
