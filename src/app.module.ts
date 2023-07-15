@@ -32,6 +32,7 @@ import { GenresModule } from './genres/genres.module';
 import { TiersModule } from './tiers/tiers.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -74,6 +75,7 @@ import { AuthModule } from './auth/auth.module';
     TiersModule,
     UsersModule,
     AuthModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
