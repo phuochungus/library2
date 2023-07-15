@@ -1,14 +1,15 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Setting {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column()
   name: string;
@@ -21,4 +22,7 @@ export class Setting {
 
   @UpdateDateColumn({ name: 'updated_date' })
   updatedDate: Date;
+
+  @CreateDateColumn({ name: 'created_date' })
+  createdDate: Date;
 }
