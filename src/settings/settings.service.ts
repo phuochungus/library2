@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Setting } from '../entities';
 import { Client } from 'pg';
+import { MaximumAgeSetting } from './maximum_age_setting/maximum_age_setting.service';
+import { SettingDispathService } from './setting_dispath_service/setting_dispath_service.service';
 
 @Injectable()
 export class SettingsService implements OnModuleInit {
@@ -10,18 +12,20 @@ export class SettingsService implements OnModuleInit {
     @InjectRepository(Setting) private settingRepository: Repository<Setting>,
     private dataSource: DataSource,
     private pgClient: Client,
+    private settingDispathService: SettingDispathService,
   ) {}
 
-  static channel = 'test';
+  private channel = 'test';
 
   async onModuleInit() {
     await this.createNotify();
     await this.pgClient.connect();
-    await this.pgClient.query('LISTEN test');
+    await this.pgClient.query(`LISTEN ${this.channel}`);
     this.pgClient.on('notification', (notification) => {
       console.log('Received notification on channel', notification.channel);
       console.log('Notification payload:', notification.payload);
-      console.log(JSON.parse(notification.payload!));
+      const payload = JSON.parse(notification.payload!);
+      this.settingDispathService.dispatch(payload.id, payload.value);
     });
   }
 
@@ -36,6 +40,8 @@ export class SettingsService implements OnModuleInit {
         DECLARE
         json TEXT :='{';
         BEGIN
+        json := json || '"id": "' || NEW.id || '",';
+
         IF (OLD.name IS DISTINCT FROM NEW.name) THEN 
           json := json || '"name": "' || NEW.name || '",';
         END IF;
@@ -46,7 +52,7 @@ export class SettingsService implements OnModuleInit {
         json := substring(json, 1, length(json) - 1);
         json := json || '}';
 
-        PERFORM pg_notify('${SettingsService.channel}', json);
+        PERFORM pg_notify('${this.channel}', json);
         RETURN NEW;
         END;
         $$ LANGUAGE plpgsql;
@@ -54,7 +60,7 @@ export class SettingsService implements OnModuleInit {
         CREATE OR REPLACE TRIGGER settings_notifier 
         AFTER UPDATE ON setting
         FOR EACH ROW
-        WHEN (OLD.* IS DISTINCT FROM NEW.*)
+        WHEN (OLD.value IS DISTINCT FROM NEW.value)
         EXECUTE FUNCTION notify_change();
         `);
       } catch (error) {

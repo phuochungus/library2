@@ -8,10 +8,10 @@ import {
 
 @Entity()
 export class Setting {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'bigint' })
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()

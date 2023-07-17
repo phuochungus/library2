@@ -3,16 +3,17 @@ import { SettingsService } from './settings.service';
 import { SettingsController } from './settings.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Setting } from '../entities';
-import { MinimumAgeSetting } from './feature_setting';
 import { Client } from 'pg';
 import { ConfigService } from '@nestjs/config';
+import { MaximumAgeSetting } from './maximum_age_setting/maximum_age_setting.service';
+import { MinimumAgeSetting } from './minumum_age_setting/minumum_age_setting.service';
+import { FeatureSetting } from './feature_setting/feature_setting.service';
+import { SettingDispathService } from './setting_dispath_service/setting_dispath_service.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Setting])],
   controllers: [SettingsController],
   providers: [
-    SettingsService,
-    MinimumAgeSetting,
     {
       provide: Client,
       useFactory: (configService: ConfigService) => {
@@ -22,6 +23,10 @@ import { ConfigService } from '@nestjs/config';
       },
       inject: [ConfigService],
     },
+    SettingsService,
+    MinimumAgeSetting,
+    MaximumAgeSetting,
+    SettingDispathService,
   ],
 })
 export class SettingsModule {}
