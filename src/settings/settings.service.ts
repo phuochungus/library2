@@ -1,9 +1,8 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Setting } from '../entities';
 import { Client } from 'pg';
-import { MaximumAgeSetting } from './maximum_age_setting/maximum_age_setting.service';
 import { SettingDispathService } from './setting_dispath_service/setting_dispath_service.service';
 
 @Injectable()
@@ -71,7 +70,13 @@ export class SettingsService implements OnModuleInit {
     }
   }
 
-  getSettingByName(name: string) {
-    return this.settingDispathService.getByName(name);
+  getSettingValueByName(name: string) {
+    return this.settingDispathService.getSettingByName(name)?.getValue();
+  }
+
+  async setSettingByName(name: string, value: number) {
+    const setting = this.settingDispathService.getSettingByName(name);
+    if (!setting) throw new NotFoundException('Setting name not found');
+    return await setting.setValue(value);
   }
 }

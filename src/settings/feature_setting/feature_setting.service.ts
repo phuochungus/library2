@@ -19,7 +19,7 @@ export abstract class FeatureSetting implements OnModuleInit {
 
   abstract defaultName: string;
   abstract defaultFeatureDescription: string;
-  abstract defaultValue: number;
+  abstract defaultValue: any;
 
   private value: number;
   public id: string;
@@ -56,8 +56,8 @@ export abstract class FeatureSetting implements OnModuleInit {
     return this.value;
   }
 
-  public async setValue(value: number): Promise<void> {
-    if (value == this.value) return;
+  public async setValue(value: number): Promise<number> {
+    if (value == this.value) return value;
     try {
       const result = await this.settingRepository.update(
         { name: this.defaultName },
@@ -68,6 +68,10 @@ export abstract class FeatureSetting implements OnModuleInit {
         throw new BadGatewayException(
           `${this.defaultName} not found in settings table`,
         );
+      else {
+        this.value = value;
+        return value;
+      }
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;

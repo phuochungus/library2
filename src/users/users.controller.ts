@@ -12,7 +12,7 @@ import { UserRepository } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('users')
+@Controller('/v1/users')
 export class UsersController {
   constructor(private readonly userRepository: UserRepository) {}
 

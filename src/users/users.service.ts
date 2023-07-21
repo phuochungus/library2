@@ -49,10 +49,10 @@ export class StandardUserRepository implements UserRepository {
     try {
       const createdUser = this.userRepository.create(createDto);
       await queryRunner.connect();
-      await queryRunner.startTransaction();
+      await queryRunner.startTransaction('READ COMMITTED');
       const [hashedPassword, defaultTier, defaultValidTime] = await Promise.all(
         [
-          hash(createdUser.password, 15),
+          hash(createdUser.password, 10),
           this.getDefaultTier(),
           this.getDefaultValidTime(),
         ],

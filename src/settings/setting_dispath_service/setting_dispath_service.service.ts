@@ -13,10 +13,10 @@ export class SettingDispathService {
     }
   }
 
-  getByName(name: string) {
+  getSettingByName(name: string): FeatureSetting | undefined {
     for (let index = 0; index < this.settings.length; index++) {
       const setting = this.settings[index];
-      if (setting.defaultName == name) return setting.getValue();
+      if (setting.defaultName == name) return setting;
     }
   }
 }
