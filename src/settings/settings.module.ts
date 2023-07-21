@@ -7,8 +7,8 @@ import { Client } from 'pg';
 import { ConfigService } from '@nestjs/config';
 import { MaximumAgeSetting } from './maximum_age_setting/maximum_age_setting.service';
 import { MinimumAgeSetting } from './minumum_age_setting/minumum_age_setting.service';
-import { FeatureSetting } from './feature_setting/feature_setting.service';
 import { SettingDispathService } from './setting_dispath_service/setting_dispath_service.service';
+import { PassDueFineSettingService } from './pass_due_fine_setting/pass_due_fine_setting.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Setting])],
@@ -27,6 +27,7 @@ import { SettingDispathService } from './setting_dispath_service/setting_dispath
     MinimumAgeSetting,
     MaximumAgeSetting,
     SettingDispathService,
+    PassDueFineSettingService,
   ],
 })
 export class SettingsModule {}

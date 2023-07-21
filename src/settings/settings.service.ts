@@ -70,4 +70,8 @@ export class SettingsService implements OnModuleInit {
       }
     }
   }
+
+  getSettingByName(name: string) {
+    return this.settingDispathService.getByName(name);
+  }
 }

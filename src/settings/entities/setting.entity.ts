@@ -14,7 +14,7 @@ export class Setting {
   @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ type: 'numeric' })
   value: number;
 
   @Column({ name: 'feature_description' })

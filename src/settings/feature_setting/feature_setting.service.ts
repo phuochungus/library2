@@ -52,7 +52,7 @@ export abstract class FeatureSetting implements OnModuleInit {
     this.id = setting.id;
   }
 
-  public getValue(): number {
+  public getValue(): any {
     return this.value;
   }
 

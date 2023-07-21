@@ -19,6 +19,15 @@ export class Tier {
   @OneToMany(() => User, (user) => user.tier)
   users: User[];
 
+  @Column({ type: 'money' })
+  pricePerMonth: number;
+
+  @Column({ type: 'money', nullable: true, name: 'price_per_day_of_each_book' })
+  pricePerDayEachBook: number;
+
+  @Column({ name: 'maximum_number_of_book_borrow', nullable: true })
+  maxBorrow: number;
+
   @CreateDateColumn({ name: 'created_date' })
   createdDate: Date;
 
