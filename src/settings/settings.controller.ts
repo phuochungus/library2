@@ -1,29 +1,15 @@
-import {
-  Controller,
-} from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { SettingsService } from './settings.service';
+import { set } from 'lodash';
 
 @Controller('settings')
 export class SettingsController {
   constructor(private readonly settingsService: SettingsService) {}
 
-  // @Post()
-  // create(@Body() createSettingDto: CreateSettingDto) {
-  //   return this.settingsService.create(createSettingDto);
-  // }
-
-  // @Get()
-  // findAll() {
-  //   return this.settingsService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.settingsService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateSettingDto: UpdateSettingDto) {
-  //   return this.settingsService.update(+id, updateSettingDto);
-  // }
+  @Get('/:name')
+  getSetting(@Param('name') name: string): number {
+    const setting = this.settingsService.getSettingByName(name);
+    if (!setting) throw new NotFoundException('Setting name not found');
+    return setting;
+  }
 }
